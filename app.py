@@ -1,9 +1,14 @@
 from io import StringIO
 import streamlit as st
 from filterframes import from_dta_select_filter
+
+import config
 from util import read_fasta_file, parse_modified_peptide, strip_modifications
 
 st.title("Peptide Site Locator")
+
+with st.expander('Help'):
+    st.markdown(config.help_msg)
 
 uploaded_fasta_file = st.file_uploader("Choose a .fasta file", type="fasta")
 uploaded_filter_file = st.file_uploader("Choose a DTASelect-filter.txt file", type="txt")
@@ -50,6 +55,7 @@ if uploaded_fasta_file and uploaded_filter_file:
 
     peptide_df['ProteinIndexModMap'] = peptide_index_mod_dict
 
+    st.subheader('DataFrame:')
     st.dataframe(peptide_df)
 
     st.download_button(label="Download",
